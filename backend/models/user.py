@@ -15,6 +15,14 @@ class User(db.Model):
 
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
+    chat_history = db.relationship(
+    "ChatHistory",
+    back_populates="user",
+    cascade="all, delete-orphan",
+    lazy=True
+    )
+
+    
     def to_dict(self):
         return {
             "id": self.id,

@@ -14,6 +14,7 @@ from routes.auth import auth_bp
 
 #Important
 from models.user import User
+from models.chat import ChatHistory
 
 app = Flask(__name__)
 
