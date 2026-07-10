@@ -8,6 +8,7 @@ from models.chat import ChatHistory
 from services.ai_service import generate_gpt_reply
 from services.risk_service import detect_risk, classify_state
 from services.memory_service import load_chat_memory
+from services.chat_service import save_chat
 
 chatbot_bp = Blueprint(
     "chatbot",
@@ -68,33 +69,18 @@ def analyze():
 
 
 #save chat
-    chat = ChatHistory(
-
-        user_id=user_id,
-
-        user_message=user_message,
-
-        bot_response=reply,
-
-        sentiment=sentiment,
-
-        emotion=emotion,
-
-        risk_level=risk_level,
-
-        state=state,
-
-        model_used="gpt-3.5-turbo",
-
-        response_time_ms=elapsed,
-
-        tokens_used=tokens
-
+    save_chat(
+    user_id=user_id,
+    user_message=user_message,
+    bot_response=reply,
+    sentiment=sentiment,
+    emotion=emotion,
+    risk_level=risk_level,
+    state=state,
+    response_time_ms=elapsed,
+    tokens_used=tokens,
+    model_used="llama3.2:3b"
     )
-
-    db.session.add(chat)
-
-    db.session.commit()
 
 
 # return response
