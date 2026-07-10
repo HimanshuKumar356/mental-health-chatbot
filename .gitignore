@@ -1,0 +1,22 @@
+# Environment files
+backend/.env
+frontend/.env
+frontend/mental_health_chatbot/.env
+
+# Virtual environments
+venv/
+backend/venv/
+frontend/venv/
+
+# Python
+__pycache__/
+*.pyc
+.cache/
+
+# Node
+node_modules/
+frontend/node_modules/
+
+# IDE
+.vscode/
+.idea/

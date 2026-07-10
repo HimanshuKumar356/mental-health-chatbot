@@ -1,0 +1,120 @@
+/* --- GLOBAL VARIABLES --- */
+:root {
+  --font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  --text-color: #e8e8e8;
+  --bg-color: #0a0d14;
+  --primary-color: #418bff;
+  --secondary-color: #1e293b;
+  --error-color: #ff4d4f;
+  --warning-color: #ffc107;
+  --success-color: #4caf50;
+  --border-radius: 8px;
+  --line-height: 1.5;
+  --transition: 0.25s ease;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  font-family: var(--font-family);
+  font-weight: 400;
+  line-height: var(--line-height);
+  color: var(--text-color);
+  background-color: var(--bg-color);
+  min-width: 320px;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* --- LINKS --- */
+a {
+  font-weight: 500;
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: var(--transition);
+}
+a:hover {
+  color: #64aaff;
+}
+
+/* --- HEADINGS --- */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  color: var(--text-color);
+  line-height: 1.2;
+}
+
+/* --- BUTTONS --- */
+button {
+  border-radius: var(--border-radius);
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: var(--primary-color);
+  color: #fff;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+button:hover {
+  background-color: #2f7ee0;
+}
+
+button:disabled {
+  background-color: #1965a8;
+  cursor: not-allowed;
+}
+
+button:focus,
+button:focus-visible {
+  outline: 3px solid rgba(65, 139, 255, 0.5);
+}
+
+/* --- SCROLLBAR (CHAT WINDOW) --- */
+.chat-window::-webkit-scrollbar {
+  width: 8px;
+}
+
+.chat-window::-webkit-scrollbar-track {
+  background: #0a0d14;
+}
+
+.chat-window::-webkit-scrollbar-thumb {
+  background: #418bff;
+  border-radius: 4px;
+}
+
+.chat-window::-webkit-scrollbar-thumb:hover {
+  background: #2f7ee0;
+}
+
+/* --- DARK/LIGHT MODE --- */
+@media (prefers-color-scheme: light) {
+  :root {
+    --text-color: #213547;
+    --bg-color: #ffffff;
+    --primary-color: #4e73ff;
+    --secondary-color: #f1f3f5;
+  }
+
+  body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+  }
+
+  button {
+    background-color: var(--primary-color);
+    color: #ffffff;
+  }
+
+  a:hover {
+    color: #747bff;
+  }
+}
