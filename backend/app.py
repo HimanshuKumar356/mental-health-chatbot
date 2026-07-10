@@ -10,11 +10,14 @@ from flask_limiter.util import get_remote_address
 
 from config import Config
 from extensions import db, bcrypt, jwt, migrate
+
 from routes.auth import auth_bp
+from routes.chatbot import chatbot_bp
 
 #Important
 from models.user import User
 from models.chat import ChatHistory
+
 
 app = Flask(__name__)
 
@@ -31,6 +34,7 @@ db.init_app(app)
 bcrypt.init_app(app)
 jwt.init_app(app)
 migrate.init_app(app, db)
+app.register_blueprint(auth_bp)
 
 CORS(
     app,
@@ -41,7 +45,6 @@ CORS(
     }
 )
 
-app.register_blueprint(auth_bp)
 
 limiter = Limiter(
     key_func=get_remote_address,
@@ -49,6 +52,7 @@ limiter = Limiter(
     default_limits=[Config.RATE_LIMIT]
 )
 
+app.register_blueprint(chatbot_bp)
 
 @app.route("/")
 def home():
