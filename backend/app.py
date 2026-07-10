@@ -13,10 +13,12 @@ from extensions import db, bcrypt, jwt, migrate
 
 from routes.auth import auth_bp
 from routes.chatbot import chatbot_bp
+from routes.mood import mood_bp
 
 #Important
 from models.user import User
 from models.chat import ChatHistory
+from models.mood import MoodEntry
 
 
 app = Flask(__name__)
@@ -53,6 +55,7 @@ limiter = Limiter(
 )
 
 app.register_blueprint(chatbot_bp)
+app.register_blueprint(mood_bp)
 
 @app.route("/")
 def home():
