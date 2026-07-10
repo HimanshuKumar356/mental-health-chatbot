@@ -36,3 +36,58 @@ def generate_ai_reply(user_message, chat_history):
         "reply": response["message"]["content"],
         "tokens": None
     }
+
+def analyze_journal(content):
+
+    prompt = f"""
+You are an AI mental wellness assistant.
+
+Analyze this journal entry.
+
+Journal:
+{content}
+
+Return ONLY in this format:
+
+Summary:
+<short summary>
+
+Emotion:
+<one word>
+
+Suggestion:
+<2-3 sentence wellness suggestion>
+"""
+
+    response = chat(
+        model="llama3.2:3b",
+        messages=[
+            {
+                "role": "user",
+                "content": prompt
+            }
+        ]
+    )
+
+    text = response["message"]["content"]
+
+    summary = ""
+    emotion = ""
+    suggestion = ""
+
+    for line in text.splitlines():
+
+        if line.startswith("Summary:"):
+            summary = line.replace("Summary:", "").strip()
+
+        elif line.startswith("Emotion:"):
+            emotion = line.replace("Emotion:", "").strip()
+
+        elif line.startswith("Suggestion:"):
+            suggestion = line.replace("Suggestion:", "").strip()
+
+    return {
+        "summary": summary,
+        "emotion": emotion,
+        "suggestion": suggestion
+    }

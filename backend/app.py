@@ -1,8 +1,3 @@
-
-
-
-
-
 from flask import Flask
 from flask_cors import CORS
 from flask_limiter import Limiter
@@ -14,11 +9,13 @@ from extensions import db, bcrypt, jwt, migrate
 from routes.auth import auth_bp
 from routes.chatbot import chatbot_bp
 from routes.mood import mood_bp
+from routes.journal import journal_bp
 
 #Important
 from models.user import User
 from models.chat import ChatHistory
 from models.mood import MoodEntry
+from models.journal import JournalEntry
 
 
 app = Flask(__name__)
@@ -56,6 +53,7 @@ limiter = Limiter(
 
 app.register_blueprint(chatbot_bp)
 app.register_blueprint(mood_bp)
+app.register_blueprint(journal_bp)
 
 @app.route("/")
 def home():
