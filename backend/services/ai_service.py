@@ -10,7 +10,7 @@ Rules:
 """
 
 
-def generate_gpt_reply(user_message, chat_history):
+def generate_ai_reply(user_message, chat_history):
     messages = [
         {
             "role": "system",

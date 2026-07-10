@@ -5,7 +5,7 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 
 from extensions import db
 from models.chat import ChatHistory
-from services.ai_service import generate_gpt_reply
+from services.ai_service import generate_ai_reply
 from services.risk_service import detect_risk, classify_state
 from services.memory_service import load_chat_memory
 from services.chat_service import save_chat
@@ -54,7 +54,7 @@ def analyze():
         emotion
     )
 
-    ai = generate_gpt_reply(
+    ai = generate_ai_reply(
         user_message,
         chat_history
     )
@@ -67,7 +67,24 @@ def analyze():
         (time.time() - start_time) * 1000
     )
 
+    try:
+        ai = generate_ai_reply(
+        user_message,
+        chat_history
+        )
 
+        reply = ai["reply"]
+        tokens = ai["tokens"]
+
+    except Exception as e:
+        return jsonify(
+        {
+            "error": "Unable to generate AI response.",
+            "details": str(e)
+        }
+    ), 500
+
+    
 #save chat
     save_chat(
     user_id=user_id,
