@@ -7,6 +7,7 @@ from extensions import db
 from models.chat import ChatHistory
 from services.ai_service import generate_gpt_reply
 from services.risk_service import detect_risk, classify_state
+from services.memory_service import load_chat_memory
 
 chatbot_bp = Blueprint(
     "chatbot",
@@ -28,31 +29,7 @@ def analyze():
 
     user_message = data.get("message", "")
 
-    #chat_history = data.get("chat_history", [])
-    previous_chats = (
-    ChatHistory.query
-    .filter_by(user_id=user_id)
-    .order_by(ChatHistory.id.desc())
-    .limit(5)
-    .all()
-    )
-
-    chat_history = []
-
-    for chat in reversed(previous_chats):
-         chat_history.append(
-        {
-            "role": "user",
-            "content": chat.user_message
-        }
-    )
-
-    chat_history.append(
-        {
-            "role": "assistant",
-            "content": chat.bot_response
-        }
-    )
+    chat_history = load_chat_memory(user_id)
 
     if not user_message.strip():
         return jsonify(
