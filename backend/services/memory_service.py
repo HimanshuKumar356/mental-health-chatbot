@@ -1,10 +1,12 @@
+# services/memory_service.py
+
 from models.chat import ChatHistory
 
 
 def load_chat_memory(user_id, limit=5):
     """
-    Load previous conversations for the given user
-    and convert them into Ollama/OpenAI format.
+    Load previous chat history for the user and convert it
+    into the format expected by the AI model.
     """
 
     previous_chats = (
@@ -15,22 +17,23 @@ def load_chat_memory(user_id, limit=5):
         .all()
     )
 
-    history = []
+    chat_history = []
 
+    # Oldest first
     for chat in reversed(previous_chats):
 
-        history.append(
+        chat_history.append(
             {
                 "role": "user",
                 "content": chat.user_message
             }
         )
 
-        history.append(
+        chat_history.append(
             {
                 "role": "assistant",
                 "content": chat.bot_response
             }
         )
 
-    return history
+    return chat_history
