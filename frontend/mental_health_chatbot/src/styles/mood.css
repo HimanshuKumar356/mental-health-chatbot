@@ -1,0 +1,59 @@
+.mood-page{
+
+    padding:35px;
+
+}
+
+.mood-page h1{
+
+    margin-bottom:10px;
+
+}
+
+.mood-page p{
+
+    color:#64748b;
+
+    margin-bottom:30px;
+
+}
+
+.mood-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
+
+    gap:20px;
+
+}
+
+.mood-card{
+
+    padding:25px;
+
+    border:none;
+
+    background:white;
+
+    border-radius:15px;
+
+    box-shadow:0 6px 18px rgba(0,0,0,.08);
+
+    cursor:pointer;
+
+    font-size:18px;
+
+    transition:.25s;
+
+}
+
+.mood-card:hover{
+
+    transform:translateY(-5px);
+
+    background:#2563eb;
+
+    color:white;
+
+}
