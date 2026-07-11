@@ -1,24 +1,94 @@
+import { useState } from "react";
+
 import "../styles/mood.css";
+
+import { saveMood } from "../api/mood";
 
 export default function Mood() {
 
     const moods = [
 
-        "😊 Happy",
+        "Happy",
 
-        "😌 Calm",
+        "Calm",
 
-        "😐 Neutral",
+        "Neutral",
 
-        "😢 Sad",
+        "Sad",
 
-        "😰 Anxious",
+        "Stressed",
 
-        "😓 Stressed",
+        "Anxious",
 
-        "😡 Angry"
+        "Angry"
 
     ];
+
+    const moodEmoji = {
+
+        Happy: "😊",
+
+        Calm: "😌",
+
+        Neutral: "😐",
+
+        Sad: "😢",
+
+        Stressed: "😓",
+
+        Anxious: "😰",
+
+        Angry: "😡"
+
+    };
+
+    const [selectedMood, setSelectedMood] = useState("");
+
+    const [note, setNote] = useState("");
+
+    const [loading, setLoading] = useState(false);
+
+    const [message, setMessage] = useState("");
+
+    const handleSave = async () => {
+
+        if (!selectedMood) {
+
+            alert("Please select a mood.");
+
+            return;
+
+        }
+
+        try {
+
+            setLoading(true);
+
+            await saveMood(selectedMood, note);
+
+            setMessage("✅ Mood saved successfully!");
+
+            setSelectedMood("");
+
+            setNote("");
+
+        }
+
+        catch (err) {
+
+            console.error(err);
+
+            setMessage("❌ Failed to save mood.");
+
+        }
+
+        finally {
+
+            setLoading(false);
+
+        }
+
+    };
 
     return (
 
@@ -46,11 +116,35 @@ export default function Mood() {
 
                             key={mood}
 
-                            className="mood-card"
+                            className={`mood-card ${
+
+                                selectedMood === mood
+
+                                    ? "selected"
+
+                                    : ""
+
+                            }`}
+
+                            onClick={() =>
+
+                                setSelectedMood(mood)
+
+                            }
 
                         >
 
-                            {mood}
+                            <div style={{ fontSize: "32px" }}>
+
+                                {moodEmoji[mood]}
+
+                            </div>
+
+                            <div>
+
+                                {mood}
+
+                            </div>
 
                         </button>
 
@@ -59,6 +153,56 @@ export default function Mood() {
                 }
 
             </div>
+
+            <textarea
+
+                className="mood-note"
+
+                placeholder="Write a note (optional)..."
+
+                value={note}
+
+                onChange={(e) =>
+
+                    setNote(e.target.value)
+
+                }
+
+            />
+
+            <button
+
+                className="save-mood-btn"
+
+                onClick={handleSave}
+
+                disabled={loading}
+
+            >
+
+                {
+
+                    loading
+
+                        ? "Saving..."
+
+                        : "Save Mood"
+
+                }
+
+            </button>
+
+            {
+
+                message &&
+
+                <p className="save-message">
+
+                    {message}
+
+                </p>
+
+            }
 
         </div>
 
