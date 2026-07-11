@@ -4,7 +4,8 @@ import "../styles/mood.css";
 
 import {
     saveMood,
-    getMoodHistory
+    getMoodHistory,
+    getMoodStats
 } from "../api/mood";
 
 export default function Mood() {
@@ -55,9 +56,13 @@ export default function Mood() {
 
     const [history, setHistory] = useState([]);
 
+    const [stats, setStats] = useState(null);
+
     useEffect(() => {
 
         loadHistory();
+    
+        loadStats();
     
     }, []);
     
@@ -68,6 +73,24 @@ export default function Mood() {
             const data = await getMoodHistory();
     
             setHistory(data.history);
+    
+        }
+    
+        catch (err) {
+    
+            console.error(err);
+    
+        }
+    
+    };
+
+    const loadStats = async () => {
+
+        try {
+    
+            const data = await getMoodStats();
+    
+            setStats(data);
     
         }
     
@@ -95,7 +118,13 @@ export default function Mood() {
 
             await saveMood(selectedMood, note);
 
-            await loadHistory();
+            await Promise.all([
+
+                loadHistory(),
+            
+                loadStats()
+            
+            ]);
 
             setMessage("✅ Mood saved successfully!");
 
@@ -234,6 +263,75 @@ export default function Mood() {
                 </p>
 
             }
+            <h2
+                style={{
+                    marginTop: "50px"
+                }}
+            >
+
+                📊 Mood Statistics
+
+            </h2>
+
+            <div className="stats-grid">
+
+            <div className="stat-card">
+
+                <h3>Total Entries</h3>
+
+                <p>
+
+                    {stats?.total_entries || 0}
+
+                </p>
+
+            </div>
+
+            <div className="stat-card">
+
+                <h3>Latest Mood</h3>
+
+                <p>
+
+                    {moodEmoji[stats?.latest_mood]}
+
+                    {" "}
+
+                    {stats?.latest_mood || "N/A"}
+
+                </p>
+
+            </div>
+
+            <div className="stat-card">
+
+                <h3>Most Common</h3>
+
+                <p>
+
+                    {moodEmoji[stats?.most_common_mood]}
+
+                    {" "}
+
+                    {stats?.most_common_mood || "N/A"}
+
+                </p>
+
+            </div>
+
+            <div className="stat-card">
+
+                <h3>Wellness</h3>
+
+                <p>
+
+                    ⭐ {stats?.wellness_level || "Unknown"}
+
+                </p>
+
+            </div>
+
+        </div>
 
             <h2
                 style={{
