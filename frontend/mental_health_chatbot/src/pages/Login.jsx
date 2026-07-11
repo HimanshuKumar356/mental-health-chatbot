@@ -1,24 +1,38 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-import { useNavigate } from "react-router-dom";
-
-import { loginUser } from "../api/auth";
+import {
+    useNavigate,
+    Link
+} from "react-router-dom";
 
 import { useAuth } from "../context/AuthContext";
 
+import { loginUser } from "../api/auth";
+
 import "../styles/login.css";
+
 
 export default function Login() {
 
     const navigate = useNavigate();
 
-    const { login } = useAuth();
+    const { login, isAuthenticated } = useAuth();
 
     const [email, setEmail] = useState("");
 
     const [password, setPassword] = useState("");
 
     const [error, setError] = useState("");
+
+    useEffect(() => {
+
+        if (isAuthenticated) {
+
+            navigate("/dashboard");
+
+        }
+
+    }, [isAuthenticated, navigate]);
 
     const handleSubmit = async (e) => {
 
@@ -124,3 +138,22 @@ export default function Login() {
     );
 
 }
+
+        <p
+            style={{
+            marginTop:"20px",
+            textAlign:"center"
+            }}
+        >
+
+            Don't have an account?
+
+            {" "}
+
+            <Link to="/register">
+
+                Register
+
+            </Link>
+
+        </p>
