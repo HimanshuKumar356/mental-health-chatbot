@@ -8,55 +8,34 @@ export default function DashboardCard({
 
     icon
 
-}){
+}) {
 
-    return(
-
-        <div
-
-            style={{
-
-                background:"white",
-
-                padding:"25px",
-
-                borderRadius:"12px",
-
-                boxShadow:"0 5px 15px rgba(0,0,0,.08)",
-
-                borderLeft:`5px solid ${color}`
-
-            }}
-
-        >
+    return (
 
         <div
+            className="dashboard-card"
             style={{
-                display:"flex",
-                justifyContent:"space-between",
-                alignItems:"center"
+                borderLeft: `5px solid ${color}`
             }}
         >
 
-            <h3>
+            <div className="card-header">
 
-                {title}
+                <h3>
 
-            </h3>
+                    {title}
 
-            <span
-                style={{
-                    fontSize:"28px"
-                }}
-            >
+                </h3>
 
-                 {icon}
+                <span className="card-icon">
 
-            </span>
+                    {icon}
 
-        </div>
+                </span>
 
-            <h2>
+            </div>
+
+            <h2 className="card-value">
 
                 {value}
 

@@ -1,9 +1,8 @@
 import {
     PieChart,
     Pie,
-    Tooltip,
     Cell,
-    ResponsiveContainer,
+    Tooltip,
     Legend
 } from "recharts";
 
@@ -12,7 +11,8 @@ const COLORS = [
     "#2196F3",
     "#FFC107",
     "#FF5722",
-    "#9C27B0"
+    "#9C27B0",
+    "#F44336"
 ];
 
 export default function MoodChart({ data }) {
@@ -24,11 +24,26 @@ export default function MoodChart({ data }) {
         })
     );
 
-    console.log(chartData);
-
     if (chartData.length === 0) {
 
-        return <p>No mood data available.</p>;
+        return (
+
+            <div
+                style={{
+                    background: "white",
+                    padding: 20,
+                    borderRadius: 15,
+                    width: "100%"
+                }}
+            >
+
+                <h2>Mood Distribution</h2>
+
+                <p>No mood data available.</p>
+
+            </div>
+
+        );
 
     }
 
@@ -37,49 +52,51 @@ export default function MoodChart({ data }) {
         <div
             style={{
                 background: "white",
-                padding: 20,
-                borderRadius: 12,
-                marginTop: 30,
-                height: 350
+                borderRadius: 15,
+                padding: 25,
+                width: "100%",
+                maxWidth: "700px",
+                boxShadow: "0 8px 20px rgba(0,0,0,.08)"
             }}
         >
 
             <h2>Mood Distribution</h2>
 
-            <ResponsiveContainer width="100%" height={280}>
+            <PieChart
+                width={600}
+                height={350}
+            >
 
-                <PieChart>
+                <Pie
+                    data={chartData}
+                    dataKey="value"
+                    nameKey="name"
+                    cx={300}
+                    cy={170}
+                    outerRadius={110}
+                    label
+                >
 
-                    <Pie
-                        data={chartData}
-                        dataKey="value"
-                        nameKey="name"
-                        cx="50%"
-                        cy="50%"
-                        outerRadius={100}
-                        label
-                    >
+                    {
 
-                        {
-                            chartData.map((entry, index) => (
+                        chartData.map((entry, index) => (
 
-                                <Cell
-                                    key={index}
-                                    fill={COLORS[index % COLORS.length]}
-                                />
+                            <Cell
+                                key={index}
+                                fill={COLORS[index % COLORS.length]}
+                            />
 
-                            ))
-                        }
+                        ))
 
-                    </Pie>
+                    }
 
-                    <Tooltip />
+                </Pie>
 
-                    <Legend />
+                <Tooltip />
 
-                </PieChart>
+                <Legend />
 
-            </ResponsiveContainer>
+            </PieChart>
 
         </div>
 
