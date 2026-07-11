@@ -1,0 +1,511 @@
+/* =====================================================
+   AI Mental Wellness Chat
+===================================================== */
+
+.chat-page{
+    display:flex;
+    flex-direction:column;
+    height:calc(100vh - 80px);
+    background:#f5f7fb;
+}
+
+/* =====================================================
+   Header
+===================================================== */
+
+.chat-header{
+    background:#ffffff;
+    padding:22px 30px;
+    border-bottom:1px solid #e5e7eb;
+    box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+
+.chat-header h2{
+    color:#1f2937;
+    margin-bottom:6px;
+}
+
+.chat-header p{
+    color:#64748b;
+    font-size:14px;
+}
+
+/* =====================================================
+   Body
+===================================================== */
+
+.chat-body{
+    flex:1;
+    overflow-y:auto;
+    padding:25px;
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+}
+
+/* Scrollbar */
+
+.chat-body::-webkit-scrollbar{
+    width:8px;
+}
+
+.chat-body::-webkit-scrollbar-thumb{
+    background:#cbd5e1;
+    border-radius:10px;
+}
+
+.chat-body::-webkit-scrollbar-track{
+    background:transparent;
+}
+
+/* =====================================================
+   Message
+===================================================== */
+
+.chat-message{
+    display:flex;
+    gap:12px;
+    animation:fadeIn .25s ease;
+}
+
+.user-message{
+    flex-direction:row-reverse;
+}
+
+.bot-message{
+    flex-direction:row;
+}
+
+/* =====================================================
+   Avatar
+===================================================== */
+
+.avatar{
+
+    width:46px;
+
+    height:46px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    border-radius:50%;
+
+    font-weight:bold;
+
+    font-size:18px;
+
+    flex-shrink:0;
+
+}
+
+.bot-message .avatar{
+
+    background:#2563eb;
+
+    color:white;
+
+}
+
+.user-message .avatar{
+
+    background:#22c55e;
+
+    color:white;
+
+}
+
+/* =====================================================
+   Content
+===================================================== */
+
+.message-content{
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+.message-header{
+
+    font-size:13px;
+
+    font-weight:600;
+
+    color:#64748b;
+
+    margin-bottom:5px;
+
+}
+
+/* =====================================================
+   Bubble
+===================================================== */
+
+.message-bubble{
+
+    max-width:650px;
+
+    padding:15px 18px;
+
+    border-radius:18px;
+
+    line-height:1.6;
+
+    word-break:break-word;
+
+    font-size:15px;
+
+}
+
+.bot-message .message-bubble{
+
+    background:white;
+
+    border:1px solid #e5e7eb;
+
+}
+
+.user-message .message-bubble{
+
+    background:#2563eb;
+
+    color:white;
+
+}
+
+/* =====================================================
+   Risk
+===================================================== */
+
+.high-risk{
+
+    border-left:6px solid #ef4444;
+
+}
+
+.medium-risk{
+
+    border-left:6px solid #f59e0b;
+
+}
+
+.low-risk{
+
+    border-left:6px solid #22c55e;
+
+}
+
+/* =====================================================
+   Footer
+===================================================== */
+
+.message-footer{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    margin-top:8px;
+
+    flex-wrap:wrap;
+
+}
+
+.message-time{
+
+    font-size:12px;
+
+    color:#94a3b8;
+
+}
+
+/* =====================================================
+   Copy Button
+===================================================== */
+
+.copy-btn{
+
+    background:none;
+
+    border:none;
+
+    color:#2563eb;
+
+    cursor:pointer;
+
+    font-size:13px;
+
+    padding:0;
+
+}
+
+.copy-btn:hover{
+
+    text-decoration:underline;
+
+}
+
+/* =====================================================
+   Feedback
+===================================================== */
+
+.feedback-buttons{
+
+    display:flex;
+
+    gap:8px;
+
+}
+
+.feedback-buttons button{
+
+    background:#f3f4f6;
+
+    border:none;
+
+    border-radius:8px;
+
+    padding:5px 10px;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+.feedback-buttons button:hover{
+
+    background:#dbeafe;
+
+}
+
+/* =====================================================
+   Typing
+===================================================== */
+
+.typing-dots{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:6px;
+
+    height:22px;
+
+}
+
+.typing-dots span{
+
+    width:8px;
+
+    height:8px;
+
+    border-radius:50%;
+
+    background:#64748b;
+
+    animation:bounce 1.4s infinite;
+
+}
+
+.typing-dots span:nth-child(2){
+
+    animation-delay:.2s;
+
+}
+
+.typing-dots span:nth-child(3){
+
+    animation-delay:.4s;
+
+}
+
+/* =====================================================
+   Input
+===================================================== */
+
+.chat-footer{
+
+    display:flex;
+
+    gap:15px;
+
+    padding:20px 25px;
+
+    background:white;
+
+    border-top:1px solid #e5e7eb;
+
+}
+
+.chat-footer textarea{
+
+    flex:1;
+
+    resize:none;
+
+    padding:14px;
+
+    border-radius:14px;
+
+    border:1px solid #d1d5db;
+
+    outline:none;
+
+    font-size:15px;
+
+    font-family:inherit;
+
+    transition:.2s;
+
+}
+
+.chat-footer textarea:focus{
+
+    border-color:#2563eb;
+
+    box-shadow:0 0 0 3px rgba(37,99,235,.15);
+
+}
+
+.chat-footer textarea:disabled{
+
+    background:#f3f4f6;
+
+}
+
+.chat-footer button{
+
+    padding:14px 26px;
+
+    border:none;
+
+    border-radius:14px;
+
+    background:#2563eb;
+
+    color:white;
+
+    cursor:pointer;
+
+    font-weight:600;
+
+    transition:.2s;
+
+}
+
+.chat-footer button:hover:not(:disabled){
+
+    background:#1d4ed8;
+
+}
+
+.chat-footer button:disabled{
+
+    background:#93c5fd;
+
+    cursor:not-allowed;
+
+}
+
+/* =====================================================
+   Empty
+===================================================== */
+
+.empty-chat{
+
+    margin:auto;
+
+    color:#94a3b8;
+
+    font-size:18px;
+
+    text-align:center;
+
+}
+
+/* =====================================================
+   Animation
+===================================================== */
+
+@keyframes fadeIn{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(8px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+@keyframes bounce{
+
+    0%,80%,100%{
+
+        transform:scale(0);
+
+    }
+
+    40%{
+
+        transform:scale(1);
+
+    }
+
+}
+
+/* =====================================================
+   Mobile
+===================================================== */
+
+@media(max-width:768px){
+
+    .chat-header{
+
+        padding:18px;
+
+    }
+
+    .chat-body{
+
+        padding:18px;
+
+    }
+
+    .chat-footer{
+
+        flex-direction:column;
+
+    }
+
+    .chat-footer button{
+
+        width:100%;
+
+    }
+
+    .message-bubble{
+
+        max-width:100%;
+
+    }
+
+}

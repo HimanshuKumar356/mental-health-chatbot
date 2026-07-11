@@ -59,7 +59,7 @@ export default function Sidebar() {
 
                 <Chat />
 
-                AI Chat
+                💬 AI Chat
 
             </NavLink>
 

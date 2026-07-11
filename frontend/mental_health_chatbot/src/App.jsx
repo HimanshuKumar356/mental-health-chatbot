@@ -75,6 +75,12 @@ function App() {
                         path="/profile"
                         element={<Profile />}
                       />
+                      
+                      <Route
+
+                        path="/chat"
+                        element={<Chat />}
+                      />
 
                 </Route>
               </Routes>
