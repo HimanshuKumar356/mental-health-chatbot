@@ -3,12 +3,12 @@ import { useEffect, useState } from "react";
 import "../styles/journal.css";
 
 import {
-
     saveJournal,
-
-    getJournalHistory
-
+    getJournalHistory,
+    getJournalDetails
 } from "../api/journal";
+
+import JournalModal from "../components/JournalModal";
 
 export default function Journal() {
 
@@ -22,29 +22,53 @@ export default function Journal() {
 
     const [history, setHistory] = useState([]);
 
+    const [selectedJournal, setSelectedJournal] = useState(null);
+
+    useEffect(() => {
+
+        loadHistory();
+
+    }, []);
+
     const loadHistory = async () => {
 
         try {
-    
+
             const data = await getJournalHistory();
-    
-            setHistory(data.history);
-    
+
+            // Supports both response formats
+            setHistory(data.history || data);
+
         }
-    
+
         catch (err) {
-    
-            console.error(err);
-    
+
+            console.error("History Error:", err);
+
         }
-    
+
     };
-    
-    useEffect(() => {
-    
-        loadHistory();
-    
-    }, []);
+
+    const openJournal = async (id) => {
+
+        try {
+
+            const data = await getJournalDetails(id);
+
+            console.log("Journal Details:", data);
+
+            // Supports both backend response formats
+            setSelectedJournal(data.journal || data);
+
+        }
+
+        catch (err) {
+
+            console.error("Details Error:", err);
+
+        }
+
+    };
 
     const handleSave = async () => {
 
@@ -68,7 +92,7 @@ export default function Journal() {
 
             );
 
-            setResult(data.journal);
+            setResult(data.journal || data);
 
             await loadHistory();
 
@@ -166,65 +190,67 @@ export default function Journal() {
 
             {
 
-                result &&
+                result && (
 
-                <div className="journal-result">
+                    <div className="journal-result">
 
-                    <h2>
+                        <h2>
 
-                        🤖 AI Analysis
+                            🤖 AI Analysis
 
-                    </h2>
+                        </h2>
 
-                    <div className="analysis-card">
+                        <div className="analysis-card">
 
-                        <h3>
+                            <h3>
 
-                            📝 Summary
+                                📝 Summary
 
-                        </h3>
+                            </h3>
 
-                        <p>
+                            <p>
 
-                            {result.ai_summary}
+                                {result.ai_summary || "No summary available."}
 
-                        </p>
+                            </p>
+
+                        </div>
+
+                        <div className="analysis-card">
+
+                            <h3>
+
+                                😊 Emotion
+
+                            </h3>
+
+                            <p>
+
+                                {result.detected_emotion || "Unknown"}
+
+                            </p>
+
+                        </div>
+
+                        <div className="analysis-card">
+
+                            <h3>
+
+                                💡 Suggestion
+
+                            </h3>
+
+                            <p>
+
+                                {result.ai_suggestion || "No suggestion available."}
+
+                            </p>
+
+                        </div>
 
                     </div>
 
-                    <div className="analysis-card">
-
-                        <h3>
-
-                            😊 Emotion
-
-                        </h3>
-
-                        <p>
-
-                            {result.detected_emotion}
-
-                        </p>
-
-                    </div>
-
-                    <div className="analysis-card">
-
-                        <h3>
-
-                            💡 Suggestion
-
-                        </h3>
-
-                        <p>
-
-                            {result.ai_suggestion}
-
-                        </p>
-
-                    </div>
-
-                </div>
+                )
 
             }
 
@@ -244,67 +270,97 @@ export default function Journal() {
 
                     history.length === 0
 
-                    ?
+                        ?
 
-                    (
-
-                        <p>
-
-                            No journal entries yet.
-
-                        </p>
-
-                    )
-
-                    :
-
-                    history.map((journal) => (
-
-                        <div
-
-                            key={journal.id}
-
-                            className="history-card"
-
-                        >
-
-                            <h3>
-
-                                📖 {journal.title}
-
-                            </h3>
+                        (
 
                             <p>
 
-                                {journal.content.length > 120
-
-                                    ? journal.content.substring(0,120) + "..."
-
-                                    : journal.content}
+                                No journal entries yet.
 
                             </p>
 
-                            <small>
+                        )
 
-                                {
+                        :
 
-                                    new Date(
+                        history.map((journal) => (
 
-                                        journal.created_at
+                            <div
 
-                                    ).toLocaleString()
+                                key={journal.id}
+
+                                className="history-card"
+
+                                onClick={() =>
+
+                                    openJournal(journal.id)
 
                                 }
 
-                            </small>
+                                style={{
+                                    cursor: "pointer"
+                                }}
 
-                        </div>
+                            >
 
-                    ))
+                                <h3>
+
+                                    📖 {journal.title}
+
+                                </h3>
+
+                                <p>
+
+                                    {
+
+                                        journal.content?.length > 120
+
+                                            ?
+
+                                            journal.content.substring(0, 120) + "..."
+
+                                            :
+
+                                            journal.content
+
+                                    }
+
+                                </p>
+
+                                <small>
+
+                                    {
+
+                                        new Date(
+
+                                            journal.created_at
+
+                                        ).toLocaleString()
+
+                                    }
+
+                                </small>
+
+                            </div>
+
+                        ))
 
                 }
 
             </div>
+
+            <JournalModal
+
+                journal={selectedJournal}
+
+                onClose={() =>
+
+                    setSelectedJournal(null)
+
+                }
+
+            />
 
         </div>
 
