@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import "../styles/mood.css";
 
-import { saveMood } from "../api/mood";
+import {
+    saveMood,
+    getMoodHistory
+} from "../api/mood";
 
 export default function Mood() {
 
@@ -50,6 +53,32 @@ export default function Mood() {
 
     const [message, setMessage] = useState("");
 
+    const [history, setHistory] = useState([]);
+
+    useEffect(() => {
+
+        loadHistory();
+    
+    }, []);
+    
+    const loadHistory = async () => {
+    
+        try {
+    
+            const data = await getMoodHistory();
+    
+            setHistory(data.history);
+    
+        }
+    
+        catch (err) {
+    
+            console.error(err);
+    
+        }
+    
+    };
+
     const handleSave = async () => {
 
         if (!selectedMood) {
@@ -65,6 +94,8 @@ export default function Mood() {
             setLoading(true);
 
             await saveMood(selectedMood, note);
+
+            await loadHistory();
 
             setMessage("✅ Mood saved successfully!");
 
@@ -203,6 +234,80 @@ export default function Mood() {
                 </p>
 
             }
+
+            <h2
+                style={{
+                    marginTop: "50px"
+                }}
+            >
+
+                📅 Recent Mood History
+
+            </h2>
+
+            <div className="history-list">
+
+                {
+
+                    history.length === 0
+
+                    ?
+
+                    (
+
+                    <p>
+
+                        No mood history yet.
+
+                    </p>
+
+                    )
+
+                    :
+
+                    history.map((item) => (
+
+                        <div
+
+                            key={item.id}
+
+                            className="history-card"
+
+                        >
+
+                            <h3>
+
+                                {moodEmoji[item.mood]} {item.mood}
+
+                            </h3>
+
+                            <p>
+
+                                {item.note || "No note added."}
+
+                            </p>
+
+                            <small>
+
+                                {
+
+                                    new Date(
+
+                                        item.created_at
+
+                                    ).toLocaleString()
+
+                                }
+
+                            </small>
+
+                        </div>
+
+                    ))
+
+                }
+
+            </div>
 
         </div>
 
