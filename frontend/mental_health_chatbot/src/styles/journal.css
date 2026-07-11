@@ -14,6 +14,92 @@
 
     color:#64748b;
 
-    margin-bottom:30px;
+    margin-bottom:25px;
+
+}
+
+.journal-title{
+
+    width:100%;
+
+    padding:15px;
+
+    margin-bottom:20px;
+
+    border-radius:12px;
+
+    border:1px solid #ccc;
+
+    font-size:16px;
+
+}
+
+.journal-content{
+
+    width:100%;
+
+    min-height:220px;
+
+    padding:15px;
+
+    border-radius:12px;
+
+    border:1px solid #ccc;
+
+    resize:vertical;
+
+    font-size:15px;
+
+}
+
+.journal-btn{
+
+    margin-top:20px;
+
+    background:#2563eb;
+
+    color:white;
+
+    border:none;
+
+    padding:15px 30px;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+    font-size:16px;
+
+}
+
+.journal-btn:hover{
+
+    background:#1d4ed8;
+
+}
+
+.journal-result{
+
+    margin-top:40px;
+
+}
+
+.analysis-card{
+
+    background:white;
+
+    margin-top:20px;
+
+    padding:20px;
+
+    border-radius:12px;
+
+    box-shadow:0 6px 18px rgba(0,0,0,.08);
+
+}
+
+.analysis-card h3{
+
+    margin-bottom:10px;
 
 }
