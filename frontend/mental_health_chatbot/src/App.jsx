@@ -16,6 +16,7 @@ import Journal from "./pages/Journal";
 import Profile from "./pages/Profile";
 
 import ProtectedRoute from "./components/ProtectedRoute";
+import MainLayout from "./layouts/MainLayout";
 
 function App() {
 
@@ -43,50 +44,39 @@ function App() {
                   />
 
                   <Route
-                      path="/dashboard"
                       element={
-                          <ProtectedRoute>
-                              <Dashboard />
-                          </ProtectedRoute>
+                        <ProtectedRoute>
+                          <MainLayout />
+                        </ProtectedRoute>
                       }
-                  />
+                  >
 
-                  <Route
-                      path="/chat"
-                      element={
-                          <ProtectedRoute>
-                              <Chat />
-                          </ProtectedRoute>
-                      }
-                  />
+                      <Route
+                        path="/dashboard"
+                        element={<Dashboard />}
+                      />
 
-                  <Route
-                      path="/mood"
-                      element={
-                          <ProtectedRoute>
-                              <Mood />
-                          </ProtectedRoute>
-                      }
-                  />
+                      <Route
+                        path="/chat"
+                        element={<Chat />}
+                      />
 
-                  <Route
-                      path="/journal"
-                      element={
-                          <ProtectedRoute>
-                              <Journal />
-                          </ProtectedRoute>
-                      }
-                  />
+                      <Route
+                         path="/mood"
+                         element={<Mood />}
+                      />
 
-                  <Route
-                      path="/profile"
-                      element={
-                          <ProtectedRoute>
-                              <Profile />
-                          </ProtectedRoute>
-                      }
-                  />
+                      <Route
+                        path="/journal"
+                        element={<Journal />}
+                      />
 
+                      <Route
+                        path="/profile"
+                        element={<Profile />}
+                      />
+
+                </Route>
               </Routes>
 
           </BrowserRouter>
