@@ -1,27 +1,53 @@
 import {
+
     PieChart,
+
     Pie,
-    Cell,
+
     Tooltip,
+
+    Cell,
+
+    ResponsiveContainer,
+
     Legend
+
 } from "recharts";
 
 const COLORS = [
+
     "#4CAF50",
+
     "#2196F3",
+
     "#FFC107",
+
     "#FF5722",
+
     "#9C27B0",
-    "#F44336"
+
+    "#F44336",
+
+    "#00BCD4"
+
 ];
 
-export default function MoodChart({ data }) {
+export default function MoodChart({
 
-    const chartData = Object.entries(data || {}).map(
+    data
+
+}) {
+
+    const chartData = Object.entries(data).map(
+
         ([name, value]) => ({
+
             name,
+
             value
+
         })
+
     );
 
     if (chartData.length === 0) {
@@ -29,17 +55,20 @@ export default function MoodChart({ data }) {
         return (
 
             <div
-                style={{
-                    background: "white",
-                    padding: 20,
-                    borderRadius: 15,
-                    width: "100%"
-                }}
+                className="chart-card"
             >
 
-                <h2>Mood Distribution</h2>
+                <h2>
 
-                <p>No mood data available.</p>
+                    📈 Mood Distribution
+
+                </h2>
+
+                <p>
+
+                    No mood data available yet.
+
+                </p>
 
             </div>
 
@@ -50,53 +79,70 @@ export default function MoodChart({ data }) {
     return (
 
         <div
-            style={{
-                background: "white",
-                borderRadius: 15,
-                padding: 25,
-                width: "100%",
-                maxWidth: "700px",
-                boxShadow: "0 8px 20px rgba(0,0,0,.08)"
-            }}
+            className="chart-card"
         >
 
-            <h2>Mood Distribution</h2>
+            <h2>
 
-            <PieChart
-                width={600}
+                📈 Mood Distribution
+
+            </h2>
+
+            <ResponsiveContainer
+                width="100%"
                 height={350}
             >
 
-                <Pie
-                    data={chartData}
-                    dataKey="value"
-                    nameKey="name"
-                    cx={300}
-                    cy={170}
-                    outerRadius={110}
-                    label
-                >
+                <PieChart>
 
-                    {
+                    <Pie
 
-                        chartData.map((entry, index) => (
+                        data={chartData}
 
-                            <Cell
-                                key={index}
-                                fill={COLORS[index % COLORS.length]}
-                            />
+                        dataKey="value"
 
-                        ))
+                        nameKey="name"
 
-                    }
+                        outerRadius={120}
 
-                </Pie>
+                        label
 
-                <Tooltip />
+                    >
 
-                <Legend />
+                        {
 
-            </PieChart>
+                            chartData.map(
+
+                                (_, index) => (
+
+                                    <Cell
+
+                                        key={index}
+
+                                        fill={
+                                            COLORS[
+                                                index %
+                                                COLORS.length
+                                            ]
+                                        }
+
+                                    />
+
+                                )
+
+                            )
+
+                        }
+
+                    </Pie>
+
+                    <Tooltip />
+
+                    <Legend />
+
+                </PieChart>
+
+            </ResponsiveContainer>
 
         </div>
 

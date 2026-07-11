@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import MoodChart from "../components/MoodChart";
 
 import "../styles/mood.css";
 
@@ -323,15 +324,57 @@ export default function Mood() {
 
                 <h3>Wellness</h3>
 
+                <p
+                    style={{
+
+                        color:
+
+                            stats?.wellness_level === "Excellent"
+
+                            ? "#4CAF50"
+
+                            : stats?.wellness_level === "Good"
+
+                            ? "#2196F3"
+
+                            : stats?.wellness_level === "Average"
+
+                            ? "#FFC107"
+
+                            : "#F44336"
+
+                    }}
+                >
+
+                    {stats?.wellness_level || "Unknown"}
+
+                </p>
+
+            </div>
+
+            <div className="stat-card">
+
+                <h3>
+
+                    Average Score
+
+                </h3>
+
                 <p>
 
-                    ⭐ {stats?.wellness_level || "Unknown"}
+                    ⭐ {stats?.average_wellness_score ?? 0}
 
                 </p>
 
             </div>
 
         </div>
+            
+        <MoodChart
+
+            data={stats?.mood_distribution || {}}
+
+        />
 
             <h2
                 style={{
