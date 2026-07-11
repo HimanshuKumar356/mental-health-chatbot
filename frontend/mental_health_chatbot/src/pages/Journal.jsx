@@ -3,12 +3,19 @@ import { useEffect, useState } from "react";
 import "../styles/journal.css";
 
 import {
+
     saveJournal,
+
     getJournalHistory,
-    getJournalDetails
+
+    getJournalDetails,
+
+    getJournalStats
+
 } from "../api/journal";
 
 import JournalModal from "../components/JournalModal";
+import EmotionChart from "../components/EmotionChart";
 
 export default function Journal() {
 
@@ -24,11 +31,33 @@ export default function Journal() {
 
     const [selectedJournal, setSelectedJournal] = useState(null);
 
+    const [stats, setStats] = useState(null);
+
     useEffect(() => {
 
         loadHistory();
 
+        loadStats();
+
     }, []);
+
+    const loadStats = async () => {
+
+        try {
+    
+            const data = await getJournalStats();
+    
+            setStats(data);
+    
+        }
+    
+        catch (err) {
+    
+            console.error(err);
+    
+        }
+    
+    };
 
     const loadHistory = async () => {
 
@@ -94,7 +123,13 @@ export default function Journal() {
 
             setResult(data.journal || data);
 
-            await loadHistory();
+            await Promise.all([
+
+                loadHistory(),
+            
+                loadStats()
+            
+            ]);
 
             setTitle("");
 
@@ -253,6 +288,74 @@ export default function Journal() {
                 )
 
             }
+
+            <h2
+                style={{
+                 marginTop: "50px"
+                }}
+            >
+
+                📊 Journal Analytics
+
+            </h2>
+
+            <div className="stats-grid">
+
+                <div className="stat-card">
+
+                    <h3>
+            
+                        Total Journals
+
+                    </h3>
+
+                    <p>
+
+                        {stats?.total_journals || 0}
+
+                    </p>
+
+                </div>
+
+                <div className="stat-card">
+
+                    <h3>
+
+                        Latest Emotion
+
+                    </h3>
+
+                    <p>
+
+                        😊 {stats?.latest_emotion || "N/A"}
+
+                    </p>
+
+                </div>
+
+                <div className="stat-card">
+
+                    <h3>
+
+                        Most Common Emotion
+
+                    </h3>
+
+                    <p>
+
+                        😊 {stats?.most_common_emotion || "N/A"}
+
+                    </p>
+
+                </div>
+
+            </div>
+            
+            <EmotionChart
+
+                data={stats?.emotion_distribution || {}}
+
+            />
 
             <h2
                 style={{

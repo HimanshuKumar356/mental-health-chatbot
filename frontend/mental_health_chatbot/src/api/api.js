@@ -1,35 +1,98 @@
 import axios from "axios";
 
 const api = axios.create({
+
     baseURL: "http://127.0.0.1:5000/api",
+
     headers: {
-        "Content-Type": "application/json",
+
+        "Content-Type": "application/json"
+
     },
+
+    timeout: 10000
+
 });
 
-api.interceptors.request.use((config) => {
+// ============================
+// Request Interceptor
+// ============================
 
-    const token = localStorage.getItem("token");
+api.interceptors.request.use(
 
-    if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
-    }
+    (config) => {
 
-    return config;
-});
+        const token = localStorage.getItem("token");
 
-api.interceptors.response.use(
+        if (token) {
 
-    (response) => response,
+            config.headers.Authorization = `Bearer ${token}`;
+
+        }
+
+        return config;
+
+    },
 
     (error) => {
 
-        if (error.response?.status === 401) {
+        return Promise.reject(error);
 
-            localStorage.removeItem("token");
-            localStorage.removeItem("user");
+    }
 
-            window.location.href = "/login";
+);
+
+// ============================
+// Response Interceptor
+// ============================
+
+api.interceptors.response.use(
+
+    (response) => {
+
+        return response;
+
+    },
+
+    (error) => {
+
+        if (error.response) {
+
+            switch (error.response.status) {
+
+                case 401:
+
+                    console.warn("Session expired. Logging out...");
+
+                    localStorage.removeItem("token");
+
+                    localStorage.removeItem("user");
+
+                    if (window.location.pathname !== "/login") {
+
+                        window.location.href = "/login";
+
+                    }
+
+                    break;
+
+                case 403:
+
+                    console.warn("Access denied.");
+
+                    break;
+
+                case 500:
+
+                    console.error("Internal Server Error.");
+
+                    break;
+
+                default:
+
+                    break;
+
+            }
 
         }
 

@@ -1,0 +1,371 @@
+/* ===========================================
+   Profile Page
+=========================================== */
+
+.profile-page{
+
+    padding:35px;
+
+    background:#f5f7fb;
+
+    min-height:100vh;
+
+}
+
+.profile-page h1{
+
+    margin-bottom:30px;
+
+    color:#1f2937;
+
+}
+
+/* ===========================================
+   Profile Card
+=========================================== */
+
+.profile-card{
+
+    max-width:750px;
+
+    margin:auto;
+
+    background:white;
+
+    padding:40px;
+
+    border-radius:18px;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+
+}
+
+.profile-avatar{
+
+    width:100px;
+
+    height:100px;
+
+    border-radius:50%;
+
+    background:#2563eb;
+
+    color:white;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:40px;
+
+    font-weight:bold;
+
+    margin:0 auto 30px;
+
+}
+
+/* ===========================================
+   Information
+=========================================== */
+
+.profile-info{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:25px;
+
+}
+
+.profile-item{
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+.profile-item label{
+
+    font-size:14px;
+
+    color:#64748b;
+
+    margin-bottom:6px;
+
+}
+
+.profile-item p{
+
+    font-size:18px;
+
+    font-weight:600;
+
+    color:#1f2937;
+
+}
+
+/* ===========================================
+   Inputs
+=========================================== */
+
+.profile-input{
+
+    width:100%;
+
+    padding:12px;
+
+    border:1px solid #d1d5db;
+
+    border-radius:10px;
+
+    font-size:16px;
+
+    transition:.25s;
+
+}
+
+.profile-input:focus{
+
+    outline:none;
+
+    border-color:#2563eb;
+
+    box-shadow:0 0 0 3px rgba(37,99,235,.15);
+
+}
+
+/* ===========================================
+   Buttons
+=========================================== */
+
+.profile-actions{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:15px;
+
+    margin-top:35px;
+
+}
+
+.primary-btn{
+
+    flex:1;
+
+    min-width:170px;
+
+    background:#2563eb;
+
+    color:white;
+
+    border:none;
+
+    padding:14px;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    transition:.25s;
+
+}
+
+.primary-btn:hover{
+
+    background:#1d4ed8;
+
+}
+
+.secondary-btn{
+
+    flex:1;
+
+    min-width:170px;
+
+    background:white;
+
+    border:1px solid #d1d5db;
+
+    color:#111827;
+
+    padding:14px;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    transition:.25s;
+
+}
+
+.secondary-btn:hover{
+
+    background:#f3f4f6;
+
+}
+
+.logout-btn{
+
+    flex:1;
+
+    min-width:170px;
+
+    background:#ef4444;
+
+    color:white;
+
+    border:none;
+
+    padding:14px;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    transition:.25s;
+
+}
+
+.logout-btn:hover{
+
+    background:#dc2626;
+
+}
+
+/* ===========================================
+   Password Card
+=========================================== */
+
+.password-card{
+
+    margin-top:35px;
+
+    background:#f9fafb;
+
+    padding:25px;
+
+    border-radius:15px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:15px;
+
+    border:1px solid #e5e7eb;
+
+}
+
+.password-card h3{
+
+    margin-bottom:10px;
+
+    color:#2563eb;
+
+}
+
+.password-card input{
+
+    padding:13px;
+
+    border:1px solid #d1d5db;
+
+    border-radius:10px;
+
+    font-size:15px;
+
+    transition:.25s;
+
+}
+
+.password-card input:focus{
+
+    outline:none;
+
+    border-color:#2563eb;
+
+    box-shadow:0 0 0 3px rgba(37,99,235,.15);
+
+}
+
+/* ===========================================
+   Success & Error Messages
+=========================================== */
+
+.success-message{
+
+    color:#16a34a;
+
+    text-align:center;
+
+    margin-bottom:20px;
+
+    font-weight:600;
+
+}
+
+.error-message{
+
+    color:#dc2626;
+
+    text-align:center;
+
+    margin-bottom:20px;
+
+    font-weight:600;
+
+}
+
+/* ===========================================
+   Responsive
+=========================================== */
+
+@media(max-width:768px){
+
+    .profile-page{
+
+        padding:20px;
+
+    }
+
+    .profile-card{
+
+        padding:25px;
+
+    }
+
+    .profile-actions{
+
+        flex-direction:column;
+
+    }
+
+    .primary-btn,
+
+    .secondary-btn,
+
+    .logout-btn{
+
+        width:100%;
+
+    }
+
+}
