@@ -1,8 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import "../styles/journal.css";
 
-import { saveJournal } from "../api/journal";
+import {
+
+    saveJournal,
+
+    getJournalHistory
+
+} from "../api/journal";
 
 export default function Journal() {
 
@@ -13,6 +19,32 @@ export default function Journal() {
     const [loading, setLoading] = useState(false);
 
     const [result, setResult] = useState(null);
+
+    const [history, setHistory] = useState([]);
+
+    const loadHistory = async () => {
+
+        try {
+    
+            const data = await getJournalHistory();
+    
+            setHistory(data.history);
+    
+        }
+    
+        catch (err) {
+    
+            console.error(err);
+    
+        }
+    
+    };
+    
+    useEffect(() => {
+    
+        loadHistory();
+    
+    }, []);
 
     const handleSave = async () => {
 
@@ -37,6 +69,8 @@ export default function Journal() {
             );
 
             setResult(data.journal);
+
+            await loadHistory();
 
             setTitle("");
 
@@ -193,6 +227,84 @@ export default function Journal() {
                 </div>
 
             }
+
+            <h2
+                style={{
+                    marginTop: "50px"
+                }}
+            >
+
+                📚 Journal History
+
+            </h2>
+
+            <div className="journal-history">
+
+                {
+
+                    history.length === 0
+
+                    ?
+
+                    (
+
+                        <p>
+
+                            No journal entries yet.
+
+                        </p>
+
+                    )
+
+                    :
+
+                    history.map((journal) => (
+
+                        <div
+
+                            key={journal.id}
+
+                            className="history-card"
+
+                        >
+
+                            <h3>
+
+                                📖 {journal.title}
+
+                            </h3>
+
+                            <p>
+
+                                {journal.content.length > 120
+
+                                    ? journal.content.substring(0,120) + "..."
+
+                                    : journal.content}
+
+                            </p>
+
+                            <small>
+
+                                {
+
+                                    new Date(
+
+                                        journal.created_at
+
+                                    ).toLocaleString()
+
+                                }
+
+                            </small>
+
+                        </div>
+
+                    ))
+
+                }
+
+            </div>
 
         </div>
 

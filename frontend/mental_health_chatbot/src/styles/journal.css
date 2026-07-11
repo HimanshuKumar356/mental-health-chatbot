@@ -103,3 +103,55 @@
     margin-bottom:10px;
 
 }
+
+.journal-history{
+
+    margin-top:25px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:20px;
+
+}
+
+.history-card{
+
+    background:white;
+
+    padding:20px;
+
+    border-radius:12px;
+
+    box-shadow:0 6px 18px rgba(0,0,0,.08);
+
+    transition:.25s;
+
+}
+
+.history-card:hover{
+
+    transform:translateY(-4px);
+
+}
+
+.history-card h3{
+
+    margin-bottom:10px;
+
+}
+
+.history-card p{
+
+    color:#555;
+
+    margin-bottom:10px;
+
+}
+
+.history-card small{
+
+    color:#888;
+
+}
