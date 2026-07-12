@@ -17,7 +17,11 @@ import {
 import JournalModal from "../components/JournalModal";
 import EmotionChart from "../components/EmotionChart";
 
+import { useNotification } from "../context/NotificationContext";
+
 export default function Journal() {
+
+    const { showNotification } = useNotification();
 
     const [title, setTitle] = useState("");
 
@@ -44,19 +48,27 @@ export default function Journal() {
     const loadStats = async () => {
 
         try {
-    
+
             const data = await getJournalStats();
-    
+
             setStats(data);
-    
+
         }
-    
+
         catch (err) {
-    
+
             console.error(err);
-    
+
+            showNotification(
+
+                "Unable to load journal statistics.",
+
+                "error"
+
+            );
+
         }
-    
+
     };
 
     const loadHistory = async () => {
@@ -65,7 +77,6 @@ export default function Journal() {
 
             const data = await getJournalHistory();
 
-            // Supports both response formats
             setHistory(data.history || data);
 
         }
@@ -73,6 +84,14 @@ export default function Journal() {
         catch (err) {
 
             console.error("History Error:", err);
+
+            showNotification(
+
+                "Unable to load journal history.",
+
+                "error"
+
+            );
 
         }
 
@@ -84,9 +103,6 @@ export default function Journal() {
 
             const data = await getJournalDetails(id);
 
-            console.log("Journal Details:", data);
-
-            // Supports both backend response formats
             setSelectedJournal(data.journal || data);
 
         }
@@ -94,6 +110,14 @@ export default function Journal() {
         catch (err) {
 
             console.error("Details Error:", err);
+
+            showNotification(
+
+                "Unable to load journal details.",
+
+                "error"
+
+            );
 
         }
 
@@ -103,7 +127,13 @@ export default function Journal() {
 
         if (!title.trim() || !content.trim()) {
 
-            alert("Please enter both title and journal content.");
+            showNotification(
+
+                "Please enter both title and journal content.",
+
+                "error"
+
+            );
 
             return;
 
@@ -126,10 +156,18 @@ export default function Journal() {
             await Promise.all([
 
                 loadHistory(),
-            
+
                 loadStats()
-            
+
             ]);
+
+            showNotification(
+
+                "Journal saved successfully!",
+
+                "success"
+
+            );
 
             setTitle("");
 
@@ -141,7 +179,13 @@ export default function Journal() {
 
             console.error(err);
 
-            alert("Failed to save journal.");
+            showNotification(
+
+                "Failed to save journal.",
+
+                "error"
+
+            );
 
         }
 
@@ -291,7 +335,7 @@ export default function Journal() {
 
             <h2
                 style={{
-                 marginTop: "50px"
+                    marginTop: "50px"
                 }}
             >
 
@@ -304,7 +348,7 @@ export default function Journal() {
                 <div className="stat-card">
 
                     <h3>
-            
+
                         Total Journals
 
                     </h3>
@@ -350,7 +394,7 @@ export default function Journal() {
                 </div>
 
             </div>
-            
+
             <EmotionChart
 
                 data={stats?.emotion_distribution || {}}
@@ -402,7 +446,9 @@ export default function Journal() {
                                 }
 
                                 style={{
+
                                     cursor: "pointer"
+
                                 }}
 
                             >

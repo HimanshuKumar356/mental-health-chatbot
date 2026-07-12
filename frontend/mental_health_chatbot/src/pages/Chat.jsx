@@ -8,7 +8,11 @@ import TypingIndicator from "../components/TypingIndicator";
 
 import { sendMessage } from "../api/chat";
 
+import { useNotification } from "../context/NotificationContext";
+
 export default function Chat() {
+
+    const { showNotification } = useNotification();
 
     const [messages, setMessages] = useState([
         {
@@ -46,7 +50,13 @@ export default function Chat() {
 
         };
 
-        setMessages((prev) => [...prev, userMessage]);
+        setMessages((prev) => [
+
+            ...prev,
+
+            userMessage
+
+        ]);
 
         setLoading(true);
 
@@ -59,13 +69,17 @@ export default function Chat() {
                 sender: "bot",
 
                 message:
+
                     response.reply ||
+
                     "I'm sorry, I couldn't generate a response.",
 
                 time: new Date().toLocaleTimeString(),
 
                 risk:
+
                     response.analysis?.risk_level ||
+
                     "low"
 
             };
@@ -84,13 +98,13 @@ export default function Chat() {
 
             console.error("Chat Error:", err);
 
-            if (err.response) {
+            showNotification(
 
-                console.log("Status:", err.response.status);
+                "Unable to contact the AI assistant.",
 
-                console.log("Data:", err.response.data);
+                "error"
 
-            }
+            );
 
             setMessages((prev) => [
 
@@ -101,6 +115,7 @@ export default function Chat() {
                     sender: "bot",
 
                     message:
+
                         "⚠️ Sorry, I'm unable to respond right now. Please try again in a moment.",
 
                     time: new Date().toLocaleTimeString(),

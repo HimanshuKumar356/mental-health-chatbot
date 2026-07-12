@@ -1,13 +1,18 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+
+import { Link, useNavigate } from "react-router-dom";
 
 import { registerUser } from "../api/auth";
 
-import "../styles/register.css";
+import { useNotification } from "../context/NotificationContext";
+
+import "../styles/auth.css";
 
 export default function Register() {
 
     const navigate = useNavigate();
+
+    const { showNotification } = useNotification();
 
     const [name, setName] = useState("");
 
@@ -15,31 +20,17 @@ export default function Register() {
 
     const [password, setPassword] = useState("");
 
-    const [confirmPassword, setConfirmPassword] = useState("");
-
-    const [error, setError] = useState("");
-
-    const [success, setSuccess] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const handleSubmit = async (e) => {
 
         e.preventDefault();
 
-        setError("");
+        setLoading(true);
 
-        setSuccess("");
+        try {
 
-        if(password !== confirmPassword){
-
-            setError("Passwords do not match.");
-
-            return;
-
-        }
-
-        try{
-
-            const data = await registerUser({
+            await registerUser(
 
                 name,
 
@@ -47,55 +38,59 @@ export default function Register() {
 
                 password
 
-            });
+            );
 
-            setSuccess(
+            showNotification(
 
-                data.message ||
+                "Registration successful! Please login.",
 
-                "Registration successful."
+                "success"
 
             );
 
-            setTimeout(()=>{
-
-                navigate("/login");
-
-            },1500);
+            navigate("/login");
 
         }
 
-        catch(err){
+        catch (err) {
 
-            setError(
+            showNotification(
 
                 err.response?.data?.error ||
 
-                "Registration failed."
+                "Registration failed.",
+
+                "error"
 
             );
+
+        }
+
+        finally {
+
+            setLoading(false);
 
         }
 
     };
 
-    return(
+    return (
 
-        <div className="register-container">
+        <div className="auth-container">
 
             <form
 
-                className="register-card"
+                className="auth-card"
 
                 onSubmit={handleSubmit}
 
             >
 
-                <h1>
+                <h2>
 
                     Create Account
 
-                </h1>
+                </h2>
 
                 <input
 
@@ -139,51 +134,31 @@ export default function Register() {
 
                 />
 
-                <input
+                <button
 
-                    type="password"
+                    type="submit"
 
-                    placeholder="Confirm Password"
+                    disabled={loading}
 
-                    value={confirmPassword}
+                >
 
-                    onChange={(e)=>setConfirmPassword(e.target.value)}
+                    {
 
-                    required
+                        loading
 
-                />
+                        ?
 
-                {
+                        "Creating Account..."
 
-                    error &&
+                        :
 
-                    <p style={{color:"red"}}>
+                        "Register"
 
-                        {error}
-
-                    </p>
-
-                }
-
-                {
-
-                    success &&
-
-                    <p style={{color:"green"}}>
-
-                        {success}
-
-                    </p>
-
-                }
-
-                <button>
-
-                    Register
+                    }
 
                 </button>
 
-                <div className="login-link">
+                <p>
 
                     Already have an account?
 
@@ -195,7 +170,7 @@ export default function Register() {
 
                     </Link>
 
-                </div>
+                </p>
 
             </form>
 

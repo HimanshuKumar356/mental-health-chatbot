@@ -1,84 +1,104 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
-import {
-    useNavigate,
-    Link
-} from "react-router-dom";
-
-import { useAuth } from "../context/AuthContext";
+import { Link, useNavigate } from "react-router-dom";
 
 import { loginUser } from "../api/auth";
 
-import "../styles/login.css";
+import { useAuth } from "../context/AuthContext";
 
+import { useNotification } from "../context/NotificationContext";
+
+import "../styles/auth.css";
 
 export default function Login() {
 
     const navigate = useNavigate();
 
-    const { login, isAuthenticated } = useAuth();
+    const { login } = useAuth();
+
+    const { showNotification } = useNotification();
 
     const [email, setEmail] = useState("");
 
     const [password, setPassword] = useState("");
 
-    const [error, setError] = useState("");
-
-    useEffect(() => {
-
-        if (isAuthenticated) {
-
-            navigate("/dashboard");
-
-        }
-
-    }, [isAuthenticated, navigate]);
+    const [loading, setLoading] = useState(false);
 
     const handleSubmit = async (e) => {
 
         e.preventDefault();
 
-        try{
+        setLoading(true);
+
+        try {
 
             const data = await loginUser(
+
                 email,
+
                 password
+
             );
 
             login(
+
                 data.token,
+
                 data.user
+
+            );
+
+            showNotification(
+
+                "Welcome back!",
+
+                "success"
+
             );
 
             navigate("/dashboard");
 
         }
 
-        catch(err){
+        catch (err) {
 
-            setError(
+            showNotification(
+
                 err.response?.data?.error ||
-                "Login failed."
+
+                "Login failed.",
+
+                "error"
+
             );
+
+        }
+
+        finally {
+
+            setLoading(false);
 
         }
 
     };
 
-    return(
+    return (
 
-        <div className="login-container">
+        <div className="auth-container">
 
             <form
-                className="login-card"
+
+                className="auth-card"
+
                 onSubmit={handleSubmit}
+
             >
 
-                <h1>
+                <h2>
 
-                    AI Mental Wellness
+                    Welcome Back
 
-                </h1>
+                </h2>
 
                 <input
 
@@ -88,7 +108,11 @@ export default function Login() {
 
                     value={email}
 
-                    onChange={(e)=>setEmail(e.target.value)}
+                    onChange={(e)=>
+
+                        setEmail(e.target.value)
+
+                    }
 
                     required
 
@@ -102,34 +126,53 @@ export default function Login() {
 
                     value={password}
 
-                    onChange={(e)=>setPassword(e.target.value)}
+                    onChange={(e)=>
+
+                        setPassword(e.target.value)
+
+                    }
 
                     required
 
                 />
 
-                {
+                <button
 
-                    error &&
+                    type="submit"
 
-                    <p
-                        style={{
-                            color:"red",
-                            marginBottom:"10px"
-                        }}
-                    >
+                    disabled={loading}
 
-                        {error}
+                >
 
-                    </p>
+                    {
 
-                }
+                        loading
 
-                <button>
+                        ?
 
-                    Login
+                        "Signing In..."
+
+                        :
+
+                        "Login"
+
+                    }
 
                 </button>
+
+                <p>
+
+                    Don't have an account?
+
+                    {" "}
+
+                    <Link to="/register">
+
+                        Register
+
+                    </Link>
+
+                </p>
 
             </form>
 
@@ -138,22 +181,3 @@ export default function Login() {
     );
 
 }
-
-        <p
-            style={{
-            marginTop:"20px",
-            textAlign:"center"
-            }}
-        >
-
-            Don't have an account?
-
-            {" "}
-
-            <Link to="/register">
-
-                Register
-
-            </Link>
-
-        </p>

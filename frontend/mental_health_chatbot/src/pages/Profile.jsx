@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 
 import { useAuth } from "../context/AuthContext";
 
+import { useNotification } from "../context/NotificationContext";
+
 import "../styles/profile.css";
 
 import {
@@ -22,6 +24,8 @@ export default function Profile() {
 
     const { logout } = useAuth();
 
+    const { showNotification } = useNotification();
+
     const [user, setUser] = useState(null);
 
     const [loading, setLoading] = useState(true);
@@ -31,10 +35,6 @@ export default function Profile() {
     const [name, setName] = useState("");
 
     const [email, setEmail] = useState("");
-
-    const [message, setMessage] = useState("");
-
-    const [error, setError] = useState("");
 
     const [showPasswordForm, setShowPasswordForm] = useState(false);
 
@@ -70,7 +70,13 @@ export default function Profile() {
 
             console.error(err);
 
-            setError("Unable to load profile.");
+            showNotification(
+
+                "Unable to load profile.",
+
+                "error"
+
+            );
 
         }
 
@@ -112,19 +118,25 @@ export default function Profile() {
 
             setEditing(false);
 
-            setMessage("✅ Profile updated successfully.");
+            showNotification(
 
-            setError("");
+                "Profile updated successfully.",
+
+                "success"
+
+            );
 
         }
 
         catch (err) {
 
-            setError(
+            showNotification(
 
                 err.response?.data?.error ||
 
-                "Failed to update profile."
+                "Failed to update profile.",
+
+                "error"
 
             );
 
@@ -134,21 +146,41 @@ export default function Profile() {
 
     const handlePasswordChange = async () => {
 
-        if (!currentPassword ||
+        if (
+
+            !currentPassword ||
 
             !newPassword ||
 
-            !confirmPassword) {
+            !confirmPassword
 
-            setError("Please fill all password fields.");
+        ) {
+
+            showNotification(
+
+                "Please fill all password fields.",
+
+                "error"
+
+            );
 
             return;
 
         }
 
-        if (newPassword !== confirmPassword) {
+        if (
 
-            setError("Passwords do not match.");
+            newPassword !== confirmPassword
+
+        ) {
+
+            showNotification(
+
+                "Passwords do not match.",
+
+                "error"
+
+            );
 
             return;
 
@@ -164,9 +196,13 @@ export default function Profile() {
 
             );
 
-            setMessage(data.message);
+            showNotification(
 
-            setError("");
+                data.message,
+
+                "success"
+
+            );
 
             setCurrentPassword("");
 
@@ -180,11 +216,13 @@ export default function Profile() {
 
         catch (err) {
 
-            setError(
+            showNotification(
 
                 err.response?.data?.error ||
 
-                "Failed to change password."
+                "Failed to change password.",
+
+                "error"
 
             );
 
@@ -223,8 +261,6 @@ export default function Profile() {
 
     }
 
-    // ===== PART 2 STARTS WITH return() =====
-
     return (
 
         <div className="profile-page">
@@ -250,44 +286,6 @@ export default function Profile() {
                     }
     
                 </div>
-    
-                {
-    
-                    message &&
-    
-                    <p
-                        style={{
-                            color: "#16a34a",
-                            textAlign: "center",
-                            marginBottom: "20px",
-                            fontWeight: "600"
-                        }}
-                    >
-    
-                        {message}
-    
-                    </p>
-    
-                }
-    
-                {
-    
-                    error &&
-    
-                    <p
-                        style={{
-                            color: "#dc2626",
-                            textAlign: "center",
-                            marginBottom: "20px",
-                            fontWeight: "600"
-                        }}
-                    >
-    
-                        {error}
-    
-                    </p>
-    
-                }
     
                 <div className="profile-info">
     
@@ -438,8 +436,6 @@ export default function Profile() {
                                     setName(user.name);
     
                                     setEmail(user.email);
-    
-                                    setError("");
     
                                 }}
     

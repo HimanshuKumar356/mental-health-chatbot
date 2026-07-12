@@ -6,6 +6,11 @@ import {
 } from "react-router-dom";
 
 import { AuthProvider } from "./context/AuthContext";
+import { NotificationProvider } from "./context/NotificationContext";
+
+import Notification from "./components/Notification";
+import ProtectedRoute from "./components/ProtectedRoute";
+import MainLayout from "./layouts/MainLayout";
 
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -15,81 +20,110 @@ import Mood from "./pages/Mood";
 import Journal from "./pages/Journal";
 import Profile from "./pages/Profile";
 
-import ProtectedRoute from "./components/ProtectedRoute";
-import MainLayout from "./layouts/MainLayout";
-
 function App() {
 
-  return (
+    return (
 
-      <AuthProvider>
+        <AuthProvider>
 
-          <BrowserRouter>
+            <NotificationProvider>
 
-              <Routes>
+                <BrowserRouter>
 
-                  <Route
-                      path="/"
-                      element={<Navigate to="/login" />}
-                  />
+                    <Notification />
 
-                  <Route
-                      path="/login"
-                      element={<Login />}
-                  />
+                    <Routes>
 
-                  <Route
-                      path="/register"
-                      element={<Register />}
-                  />
+                        <Route
 
-                  <Route
-                      element={
-                        <ProtectedRoute>
-                          <MainLayout />
-                        </ProtectedRoute>
-                      }
-                  >
+                            path="/"
 
-                      <Route
-                        path="/dashboard"
-                        element={<Dashboard />}
-                      />
+                            element={<Navigate to="/login" />}
 
-                      <Route
-                        path="/chat"
-                        element={<Chat />}
-                      />
+                        />
 
-                      <Route
-                         path="/mood"
-                         element={<Mood />}
-                      />
+                        <Route
 
-                      <Route
-                        path="/journal"
-                        element={<Journal />}
-                      />
+                            path="/login"
 
-                      <Route
-                        path="/profile"
-                        element={<Profile />}
-                      />
-                      
-                      <Route
+                            element={<Login />}
 
-                        path="/chat"
-                        element={<Chat />}
-                      />
+                        />
 
-                </Route>
-              </Routes>
+                        <Route
 
-          </BrowserRouter>
+                            path="/register"
 
-      </AuthProvider>
+                            element={<Register />}
 
-  );
+                        />
+
+                        <Route
+
+                            element={
+
+                                <ProtectedRoute>
+
+                                    <MainLayout />
+
+                                </ProtectedRoute>
+
+                            }
+
+                        >
+
+                            <Route
+
+                                path="/dashboard"
+
+                                element={<Dashboard />}
+
+                            />
+
+                            <Route
+
+                                path="/chat"
+
+                                element={<Chat />}
+
+                            />
+
+                            <Route
+
+                                path="/mood"
+
+                                element={<Mood />}
+
+                            />
+
+                            <Route
+
+                                path="/journal"
+
+                                element={<Journal />}
+
+                            />
+
+                            <Route
+
+                                path="/profile"
+
+                                element={<Profile />}
+
+                            />
+
+                        </Route>
+
+                    </Routes>
+
+                </BrowserRouter>
+
+            </NotificationProvider>
+
+        </AuthProvider>
+
+    );
+
 }
 
 export default App;
