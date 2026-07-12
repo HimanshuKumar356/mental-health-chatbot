@@ -10,7 +10,7 @@ const api = axios.create({
 
     },
 
-    timeout: 10000
+    timeout: 60000
 
 });
 

@@ -20,7 +20,7 @@
 
 .dashboard-date{
 
-    color:#888;
+    color:#475569;
 
     margin-bottom:8px;
 
@@ -28,7 +28,7 @@
 
 .dashboard-subtitle{
 
-    color:#666;
+    color:#475569;
 
     margin-bottom:30px;
 
@@ -114,7 +114,7 @@
 
 .analytics-header p{
 
-    color:#666;
+    color:#475569;
 
 }
 
@@ -123,5 +123,17 @@
     display:flex;
 
     justify-content:center;
+
+}
+
+.dashboard-card h3{
+
+    color:#1e293b;
+
+}
+
+.card-value{
+
+    color:#111827;
 
 }
